@@ -1,0 +1,46 @@
+<div class="container">
+    <!--left pan-->
+    <div class="list-group col-md-2" style="margin-top:70px;">
+
+        <a ui-sref="viewModifyFaculty" class="list-group-item ">View/Modify Faculty</a>
+        <a ui-sref="addFaculty" class="list-group-item">Add Faculty</a>
+        <a ui-sref="deleteFaculty" class="list-group-item active">Delete Faculty</a>
+
+    </div>
+    <div class="col-md-8">
+        <h2>Faculty</h2>
+        <table class="table table-hover" align="center" >
+            <thead>
+
+            <tr><td>&nbsp;</td></tr>
+            <tr style="background-color: green; opacity: 0.75; color: white;height: 52px">
+                <th>First Name</th>
+                <th> </th>
+                <th>Last Name</th>
+                <th> </th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr ng-repeat="fac in faculty track by $index">
+                <td>{{fac.firstName}}</td>
+                <td>&nbsp;</td>
+                <td>{{fac.lastName}}</td>
+                <td>&nbsp;</td>
+                <td>
+                    <input type="checkbox" ng-model="ids[fac.lastName]">
+                </td>
+
+            </tr>
+
+            </tbody>
+        </table>
+
+
+        <div  align="center">
+            <button type="button" id="dialog-box" onclick="swal()" class="btn btn-danger">Delete</button>
+        </div>
+
+    </div>
+</div>
