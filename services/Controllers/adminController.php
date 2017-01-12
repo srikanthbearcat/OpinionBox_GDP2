@@ -34,7 +34,9 @@ $loginAdmin = function () use ($app) {
 $addFaculty = function () use ($app) {
     $response = new stdClass();
     try {
-        $postData = $app->request->post();
+//        $postData = $app->request->post();
+        $json = $app->request->getBody();
+        $postData = json_decode($json, true); // parse the JSON into an assoc. array
         $first_name = $postData['first_name'];
         $last_name = $postData['last_name'];
         $password = $postData['password'];
@@ -58,11 +60,16 @@ $addFaculty = function () use ($app) {
             echo json_encode($response);
         }
     } catch (Exception $ex) {
-        $app->response()->status(400);
-        $app->response()->header('X-Status-Reason', $ex->getMessage());
-        // Append response body
-        $app->response->write('Bar');
-
+        $response = $app->response();
+        $response->status(400);
+        $response->success = false;
+        $response->info["reason"] = $ex->getMessage();
+        echo json_encode($response);
+//        $app->response()->status(400);
+//        $app->response()->header('X-Status-Reason', $ex->getMessage());
+//        // Append response body
+//        $app->response->write('Bar');
+//        echo json_encode($response);
     }
 };
 
