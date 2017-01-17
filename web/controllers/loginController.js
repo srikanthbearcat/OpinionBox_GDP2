@@ -105,17 +105,5 @@ app.controller("LoginController", ['$scope', '$cookies', '$state', '$http', '$ro
         }
     }
 }]);
-app.controller('modalInstanceController', function ($scope, $uibModalInstance, modalInfo) {
-    console.log(modalInfo.modalHeader);
-    $scope.modalData = {};
-    $scope.modalData.headerText = modalInfo.modalHeader;
-    $scope.modalData.bodyText = modalInfo.modalBody;
 
-    $scope.ok = function () {
-        $uibModalInstance.close();
-    }
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss();
-    }
-});
 

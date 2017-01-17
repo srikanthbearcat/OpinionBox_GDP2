@@ -1,4 +1,4 @@
-var app = angular.module("myApp", ["ui.router","ngCookies",'ui.bootstrap']);
+var app = angular.module("myApp", ["ui.router","ngCookies",'ui.bootstrap','xeditable']);
 app.constant("url","services/index.php");
 
 
@@ -44,4 +44,19 @@ app.config(function ($stateProvider,$urlRouterProvider, $locationProvider) {
 });
 app.run(function($rootScope, $location) {
     $rootScope.location = $location;
+});
+//Alert controller
+app.controller('modalInstanceController', function ($scope,$rootScope, $uibModalInstance, modalInfo) {
+
+    $scope.modalData = {};
+    $scope.modalData.headerText = modalInfo.modalHeader;
+    $scope.modalData.bodyText = modalInfo.modalBody;
+
+    $scope.ok = function () {
+        $rootScope.$broadcast("DeleteFacultyConfirm", modalInfo);
+        $uibModalInstance.close();
+    }
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss();
+    }
 });

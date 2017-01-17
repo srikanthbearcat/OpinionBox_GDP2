@@ -1,15 +1,31 @@
 /**
  * Created by S525796 on 04-01-2017.
  */
-app.controller("adminController", ['$scope', '$cookies', '$state', '$http', 'url', function ($scope, $cookies, $state, $http, url) {
+app.controller("adminController", ['$scope', '$cookies', '$state', '$http', 'url', '$uibModal', function ($scope, $cookies, $state, $http, url,$uibModal) {
     $scope.addFacultyForm = {};
     $scope.addedFacultySuccess = false;
     $scope.addedFacultyFailed = false;
     $scope.addFacultyExist = false;
+    $scope.alert = function (size, modal_Info) {
+        // $scope.alert = function (size){
+        // $scope.animateEnabled = true;
+
+        var modalPopUpInstance = $uibModal.open({
+            // animate:$scope.animateEnabled,
+            templateUrl: 'web/views/modal.html',
+            controller: 'modalInstanceController',
+            // size: size,
+            resolve: {
+                modalInfo: function () {
+                    return modal_Info;
+                }
+            }
+        });
+    }
     $scope.addNewFaculty = function () {
         if ($scope.addFacultyForm.$invalid) {
             console.log("add faculty form not valid");
-        }else {
+        } else {
             console.log("add faculty form  valid");
             // var config = {
             //     headers: {
@@ -37,7 +53,7 @@ app.controller("adminController", ['$scope', '$cookies', '$state', '$http', 'url
                         $scope.addedFacultyFailed = true;
                     }
                 }, function errorCallback(response) {
-                    if(!response.data.success && response.data.info.reason == "Username already Exists"){
+                    if (!response.data.success && response.data.info.reason == "Username already Exists") {
                         $scope.addFacultyExist = true;
                         console.log("Faculty already exists");
                     }
@@ -49,4 +65,58 @@ app.controller("adminController", ['$scope', '$cookies', '$state', '$http', 'url
             }
         }
     }
+    //Get faculty data from database
+    $scope.facultyData = [];
+    $http.post(url + "/admin/getFacultyData").then(function successCallback(response) {
+
+        // angular.forEach(response.data.info, function () {
+        // });
+        // $scope.facultyData = response.data.info;
+        $.each(response.data.info, function (i, data) {
+            data.i = i;
+            data.original_user_name = data.user_name;
+            $scope.facultyData.push(data);
+        });
+        console.log(JSON.stringify($scope.facultyData));
+    }, function errorCallback(response) {
+    })
+
+    //Edit faculty data from database
+    $scope.saveFaculty = function (data, faculty) {
+        console.log(JSON.stringify(data)+"Hello "+JSON.stringify(faculty));
+        var editFacultyData = {
+            original_user_name : faculty.original_user_name,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+            user_name: data.user_name,
+            password: data.password
+        };
+        $http.post(url + "/admin/editFacultyData",editFacultyData).then(function successCallback(response) {
+
+        }, function errorCallback(response) {
+        })
+    }
+    //delete faculty data from database
+    $scope.removeFaculty = function (indexd, user_name) {
+        $scope.alert('sm', {modalHeader: "Delete Faculty", modalBody: "Are you sure you want to delete? All the data related to this faculty will be deleted", data:{indexd:indexd,user_name:user_name}});
+        //event handler
+        $scope.$on("DeleteFacultyConfirm", function (evt, data) {
+            var deleteFacultyData = {
+                user_name: user_name
+            };
+            $http.post(url + "/admin/removeFacultyData",deleteFacultyData).then(function successCallback(response) {
+                if(response.data.success == true){
+                    console.log(response.data.success);
+                    $scope.facultyData.splice(indexd, 1);
+                }
+
+            }, function errorCallback(response) {
+            })
+        });
+
+
+    };
+
+
 }]);
