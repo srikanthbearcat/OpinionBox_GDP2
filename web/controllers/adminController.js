@@ -81,6 +81,16 @@ app.controller("adminController", ['$scope', '$cookies', '$state', '$http', 'url
     }, function errorCallback(response) {
     })
 
+
+    $scope.checkFirstName = function (data) {
+        console.log(data+" sdvf"+data.length);
+        var letters = /^[A-Za-z ]+$/;
+        if (data.length === 0 || data === undefined) {
+            return "Enter first name";
+        } else if (!data.match(letters)) {
+            return "Only character";
+        }
+    };
     //Edit faculty data from database
     $scope.saveFaculty = function (data, faculty) {
         console.log(JSON.stringify(data)+"Hello "+JSON.stringify(faculty));

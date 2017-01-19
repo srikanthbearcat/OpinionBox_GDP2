@@ -25,10 +25,11 @@
             <tbody>
             <tr ng-repeat="faculty in facultyData track by $index">
                 <td >{{$index +1}}</td>
-                <td >
+                <td style="width: 120px">
                     <span editable-text="faculty.first_name" e-name="first_name" e-form="rowform"
-                          onbeforesave="checkFirstName($data, $index)" e-required>
-                                {{ faculty.first_name || 'empty' }}
+                          onbeforesave="checkFirstName($data)" e-required>
+                        {{ faculty.first_name }}
+                                <!--{{ faculty.first_name || 'empty' }}-->
                     </span>
                 </td>
                 <td>
