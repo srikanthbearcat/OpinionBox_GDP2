@@ -42,8 +42,9 @@ app.config(function ($stateProvider,$urlRouterProvider, $locationProvider) {
     });
     // $locationProvider.html5Mode(true);
 });
-app.run(function($rootScope, $location) {
+app.run(function($rootScope, $location,editableOptions) {
     $rootScope.location = $location;
+        editableOptions.theme = 'bs3';
 });
 //Alert controller
 app.controller('modalInstanceController', function ($scope,$rootScope, $uibModalInstance, modalInfo) {

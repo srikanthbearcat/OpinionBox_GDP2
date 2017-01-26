@@ -83,12 +83,39 @@ app.controller("adminController", ['$scope', '$cookies', '$state', '$http', 'url
 
 
     $scope.checkFirstName = function (data) {
-        console.log(data+" sdvf"+data.length);
+        // console.log(data+" sdvf"+data.length);
         var letters = /^[A-Za-z ]+$/;
-        if (data.length === 0 || data === undefined) {
+        if (data === undefined || data === '') {
             return "Enter first name";
         } else if (!data.match(letters)) {
             return "Only character";
+        }
+    };
+    $scope.checkLastName = function (data) {
+        // console.log(data+" sdvf"+data.length);
+        var letters = /^[A-Za-z ]+$/;
+        if (data === undefined || data === '') {
+            return "Enter last name";
+        } else if (!data.match(letters)) {
+            return "Only character";
+        }
+    };
+    $scope.checkUserName = function (data) {
+
+        if (data === undefined || data === '') {
+            return "Enter user name";
+        }
+    };
+    $scope.checkPassword = function (data) {
+
+        if (data === undefined || data === '') {
+            return "Enter password";
+        }
+    };
+    $scope.checkEmail = function (data) {
+
+        if (data === undefined || data === '') {
+            return "Enter email address";
         }
     };
     //Edit faculty data from database
