@@ -30,8 +30,30 @@ $loginFaculty = function () use ($app) {
     }
 };
 
+function getCoursesByFaculty($fname) {
+    try {
+        $core = Core::getInstance();
+        $sql = "SELECT course_crn,course_name,trimester FROM `course` WHERE faculty_id =:fname ";
+        $stmt = $core->dbh->prepare($sql);
+        $stmt->bindParam("fname", $fname);
+        $response = new stdClass();
+        if ($stmt->execute()) {
+            $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $response->success = count($records) > 0;
+            $response->info = $response->success ? $records[0] : 0;
+        } else {
+            $response->success = FALSE;
+            $response->info = 0;
+        }
+        echo json_encode($response);
+    } catch (Exception $ex) {
+        $app->response()->status(400);
+        $app->response()->header('X-Status-Reason', $ex->getMessage());
+    }
+}
 
 //For the url http://localhost/OpinionBox/services/index.php/faculty/login
 $app->post('/faculty/login', $loginFaculty);
-
+//For the url http://localhost/OpinionBox/services/index.php/coursesByFaculty/facultyusername
+$app->post('coursesByFaculty/:fname', 'getCoursesByFaculty');
 ?>

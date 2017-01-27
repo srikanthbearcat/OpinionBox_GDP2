@@ -16,6 +16,7 @@ class Config {
 }
 
 if ($_SERVER['SERVER_NAME'] === "localhost") {
+
     // DB Config
     Config::write('db.host', '107.180.24.241');
     Config::write('db.port', '3306');

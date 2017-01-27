@@ -137,23 +137,25 @@ app.controller("adminController", ['$scope', '$cookies', '$state', '$http', 'url
     //delete faculty data from database
     $scope.removeFaculty = function (indexd, user_name) {
         $scope.alert('sm', {modalHeader: "Delete Faculty", modalBody: "Are you sure you want to delete? All the data related to this faculty will be deleted", data:{indexd:indexd,user_name:user_name}});
-        //event handler
-        $scope.$on("DeleteFacultyConfirm", function (evt, data) {
-            var deleteFacultyData = {
-                user_name: user_name
-            };
-            $http.post(url + "/admin/removeFacultyData",deleteFacultyData).then(function successCallback(response) {
-                if(response.data.success == true){
-                    console.log(response.data.success);
-                    $scope.facultyData.splice(indexd, 1);
-                }
-
-            }, function errorCallback(response) {
-            })
-        });
 
 
     };
+    //event handler
+    $scope.$on("DeleteFacultyConfirm", function (evt, modalInfo) {
+        var deleteFacultyData = {
+            user_name: modalInfo.data.user_name
+        };
+        $http.post(url + "/admin/removeFacultyData",deleteFacultyData).then(function successCallback(response) {
+            if(response.data.success == true){
+                console.log(response.data.success);
+                console.log(JSON.stringify($scope.facultyData));
+                $scope.facultyData.splice(modalInfo.data.indexd, 1);
+                console.log(JSON.stringify($scope.facultyData));
+            }
+
+        }, function errorCallback(response) {
+        })
+    });
 
 
 }]);
