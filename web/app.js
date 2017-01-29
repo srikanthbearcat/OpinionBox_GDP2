@@ -25,15 +25,21 @@ app.config(function ($stateProvider,$urlRouterProvider, $locationProvider) {
         controller: "adminController",
         templateUrl: "web/views/addFaculty.html"
     });
-    $stateProvider.state("deleteFaculty", {
-        url: "/deleteFaculty",
-        controller: "adminController",
-        templateUrl: "web/views/deleteFaculty.html"
-    });
+
     $stateProvider.state("facultyHome", {
         url: "/facultyhome",
         controller: "facultyController",
         templateUrl: "web/views/facultyHomepage.html"
+    });
+    $stateProvider.state("addCourse", {
+        url: "/addCourse",
+        controller: "facultyController",
+        templateUrl: "web/views/addCourse.html"
+    });
+    $stateProvider.state("modifyCourse", {
+        url: "/viewModifyCourse",
+        controller: "facultyController",
+        templateUrl: "web/views/viewModifyCourse.html"
     });
     $stateProvider.state("studentHome", {
         url: "/studenthome",
